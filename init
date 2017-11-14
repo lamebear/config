@@ -1,0 +1,8 @@
+#!/bin/bash
+
+dir=`dirname "$0"`
+
+ln -s $dir/profile/.bash_profile $HOME/.bash_profile
+ln -s $dir/profile/.bash_aliases $HOME/.bash_aliases
+ln -s $dir/profile/.bash_functions $HOME/.bash_functions
+
