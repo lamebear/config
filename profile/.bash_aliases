@@ -1,3 +1,5 @@
+#!/bin/bash
+
 alias h="cd ~"
 alias c="clear"
 alias cwd="echo $PWD"
