@@ -3,7 +3,7 @@ pushd $HOME
 
 hash brew 2>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-packages=(git go kubernetes-cli redis vault)
+packages=(git go kubernetes-cli python redis vault)
 casks=(docker google-cloud-sdk iterm2 spotify visual-studio-code)
 
 for package in "${packages[@]}"
@@ -34,5 +34,7 @@ then
 
     ./code/misc/comp-config/init.sh
 fi
+
+source .bash_profile
 
 popd
