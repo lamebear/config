@@ -4,7 +4,7 @@ pushd $HOME
 hash brew 2>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 taps=("homebrew/cask-versions")
-packages=(git go kubernetes-cli python redis vault)
+packages=(git go kubernetes-cli node@10 python redis vault)
 casks=(docker firefox-developer-edition google-cloud-sdk google-chrome iterm2 slack spotify visual-studio-code)
 
 for tap in "${taps[@]}"
