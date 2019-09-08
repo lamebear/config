@@ -4,7 +4,7 @@ pushd $HOME
 hash brew 2>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 packages=(git go kubernetes-cli python redis vault)
-casks=(docker google-cloud-sdk google-chrome iterm2 spotify visual-studio-code)
+casks=(docker google-cloud-sdk google-chrome iterm2 slack spotify visual-studio-code)
 
 for package in "${packages[@]}"
 do
