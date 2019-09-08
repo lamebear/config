@@ -1,6 +1,3 @@
-"""""""""""""""""""""""""""""""""""""
-" Allan MacGregor Vimrc configuration 
-"""""""""""""""""""""""""""""""""""""
 set nocompatible
 syntax on
 set nowrap
