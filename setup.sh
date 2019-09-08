@@ -3,8 +3,14 @@ pushd $HOME
 
 hash brew 2>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+taps=("homebrew/cask-versions")
 packages=(git go kubernetes-cli python redis vault)
-casks=(docker google-cloud-sdk google-chrome iterm2 slack spotify visual-studio-code)
+casks=(docker firefox-developer-edition google-cloud-sdk google-chrome iterm2 slack spotify visual-studio-code)
+
+for tap in "${taps[@]}"
+do
+    brew tap | grep -w $tap || brew tap $tap
+done
 
 for package in "${packages[@]}"
 do
