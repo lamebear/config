@@ -9,17 +9,17 @@ casks=(docker firefox-developer-edition google-cloud-sdk google-chrome iterm2 sl
 
 for tap in "${taps[@]}"
 do
-    brew tap | grep -w $tap || brew tap $tap
+    brew tap | grep -q -w $tap || brew tap $tap
 done
 
 for package in "${packages[@]}"
 do
-    brew list -1 | grep -w $package || brew install $package
+    brew list -1 | grep -q -w $package || brew install $package
 done
 
 for cask in "${casks[@]}"
 do
-    brew cask list -1 | grep -w $package || brew install $cask
+    brew cask list -1 | grep -q -w $package || brew cask install $cask
 done
 
 if [ ! -f .ssh/id_rsa ]
@@ -36,9 +36,11 @@ then
     read -p "Press enter once the SSH Key has been added to github..."
 
     mkdir -p code/misc
-    git clone git@github.com:lamebear/comp-config.git
+    git clone git@github.com:lamebear/comp-config.git code/misc
 
-    ./code/misc/comp-config/init.sh
+    pushd code/misc/comp-config
+    ./init.sh
+    popd
 fi
 
 source .bash_profile
