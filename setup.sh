@@ -1,48 +1,78 @@
 #!/bin/bash
+setupGit ()
+{
+    echo "Setting git configurations..."
+    git config --global user.name > /dev/null || git config --global user.name "Jacob Lambert"
+    git config --global user.email > /dev/null || (read -p "Git User Email: " userEmail && git config --global user.email $userEmail)
+    git config --global alias.co > /dev/null || git config --global alias.co checkout
+    git config --global alias.br > /dev/null || git config --global alias.br branch
+    git config --global alias.ci > /dev/null || git config --global alias.ci commit
+    git config --global alias.st > /dev/null || git config --global alias.st status
+}
+
+pullConfigRepo ()
+{
+    if [ ! -d code/misc/comp-config ]
+    then
+        cat .ssh/id_rsa.pub | pbcopy
+
+        read -p "Press enter once the SSH Key has been added to github..."
+
+        mkdir -p code/misc
+        git clone git@github.com:lamebear/comp-config.git code/misc
+
+        pushd code/misc/comp-config
+        git submodule update --init
+        popd
+    fi
+}
+
 pushd $HOME
 
-hash brew 2>/dev/null || /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
-packages=(git go kubernetes-cli node@10 postgresql python redis vault)
-casks=(docker firefox-developer-edition google-cloud-sdk google-chrome iterm2 slack spotify visual-studio-code)
+packages=(bash-completion git go kubernetes-cli node@10 postgresql python redis vault)
+casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
 
+echo "Setting up Homebrew Taps..."
 for tap in "${taps[@]}"
 do
     brew tap | grep -q -w $tap || brew tap $tap
 done
 
+echo "Setting up Homebrew Packages..."
 for package in "${packages[@]}"
 do
     brew list -1 | grep -q -w $package || brew install $package
 done
 
+echo "Setting up Homebrew Casks..."
 for cask in "${casks[@]}"
 do
-    brew cask list -1 | grep -q -w $package || brew cask install $cask
+    brew cask list -1 | grep -q -w $cask || brew cask install $cask
 done
 
-if [ ! -f .ssh/id_rsa ]
-then
-    read -p "Username for SSH Key:" username
+setupGit
 
-    ssh-keygen -t rsa -b 4096 -C $username
-fi
+[ -f .ssh/id_rsa ] || (read -p "Username for SSH Key:" sshUsername && ssh-keygen -t rsa -b 4096 -C $sshUsername)
 
-if [ ! -d code/misc/comp-config ]
-then
-    cat .ssh/id_rsa.pub | pbcopy
+pullConfigRepo
 
-    read -p "Press enter once the SSH Key has been added to github..."
+[[ -L .vimrc && -f .vimrc ]] || ln -s $(pwd)/code/misc/comp-config/vim/.vimrc $(pwd)/.vimrc
+[ -d .vim ] || mkdir $(pwd)/.vim
+[[ -L .vim/bundle && -d .vim/bundle ]] || ln -s $(pwd)/code/misc/comp-config/vim/bundle $(pwd)/.vim/bundle
 
-    mkdir -p code/misc
-    git clone git@github.com:lamebear/comp-config.git code/misc
+[[ -L .bash_aliases && -f .bash_aliases ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_aliases .bash_aliases
+[[ -L .bash_functions && -f .bash_functions ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_functions .bash_functions
+[[ -L .bash_profile && -f .bash_profile ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_profile .bash_profile && source .bash_profile
 
-    pushd code/misc/comp-config
-    ./init.sh
-    popd
-fi
+pushd $(brew --prefix)/etc/bash_completion.d
 
-source .bash_profile
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion
+ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+
+popd
 
 popd
