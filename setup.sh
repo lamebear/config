@@ -4,10 +4,11 @@ setupGit ()
     echo "Setting git configurations..."
     git config --global user.name > /dev/null || git config --global user.name "Jacob Lambert"
     git config --global user.email > /dev/null || (read -p "Git User Email: " userEmail && git config --global user.email $userEmail)
-    git config --global alias.co > /dev/null || git config --global alias.co checkout
-    git config --global alias.br > /dev/null || git config --global alias.br branch
-    git config --global alias.ci > /dev/null || git config --global alias.ci commit
-    git config --global alias.st > /dev/null || git config --global alias.st status
+    
+    git config --global alias.co checkout
+    git config --global alias.br branch
+    git config --global alias.ci commit
+    git config --global alias.st status
 }
 
 pullConfigRepo ()
@@ -21,19 +22,20 @@ pullConfigRepo ()
         mkdir -p code/misc
         git clone git@github.com:lamebear/comp-config.git code/misc
 
-        pushd code/misc/comp-config
+        pushd code/misc/comp-config > /dev/null
         git submodule update --init
-        popd
+        popd > /dev/null
     fi
 }
 
-pushd $HOME
+pushd $HOME > /dev/null
 
 hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
 packages=(bash-completion git go kubernetes-cli node@10 postgresql python redis vault)
 casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
+npmPackages=("@vue/cli")
 
 echo "Setting up Homebrew Taps..."
 for tap in "${taps[@]}"
@@ -42,16 +44,10 @@ do
 done
 
 echo "Setting up Homebrew Packages..."
-for package in "${packages[@]}"
-do
-    brew list -1 | grep -q -w $package || brew install $package
-done
+brew install ${packages[@]} 2>/dev/null
 
 echo "Setting up Homebrew Casks..."
-for cask in "${casks[@]}"
-do
-    brew cask list -1 | grep -q -w $cask || brew cask install $cask
-done
+brew cask install ${casks[@]} 2>/dev/null
 
 setupGit
 
@@ -67,12 +63,15 @@ pullConfigRepo
 [[ -L .bash_functions && -f .bash_functions ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_functions .bash_functions
 [[ -L .bash_profile && -f .bash_profile ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_profile .bash_profile && source .bash_profile
 
-pushd $(brew --prefix)/etc/bash_completion.d
+echo "Installing global NPM Packages..."
+npm install -g ${npmPackages[@]}
 
-ln -s /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
-ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion
-ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
+pushd $(brew --prefix)/etc/bash_completion.d > /dev/null
 
-popd
+[ -L docker.bash-completion ] || ln -s /Applications/Docker.app/Contents/Resources/etc/docker.bash-completion
+[ -L docker-machine.bash-completion ] || ln -s /Applications/Docker.app/Contents/Resources/etc/docker-machine.bash-completion
+[ -L docker-compose.bash-completion ] || ln -s /Applications/Docker.app/Contents/Resources/etc/docker-compose.bash-completion
 
-popd
+popd > /dev/null
+
+popd > /dev/null
