@@ -1,32 +1,4 @@
 #!/bin/bash
-setupGit ()
-{
-    echo "Setting git configurations..."
-    git config --global user.name > /dev/null || git config --global user.name "Jacob Lambert"
-    git config --global user.email > /dev/null || (read -p "Git User Email: " userEmail && git config --global user.email $userEmail)
-    
-    git config --global alias.co checkout
-    git config --global alias.br branch
-    git config --global alias.ci commit
-    git config --global alias.st status
-}
-
-pullConfigRepo ()
-{
-    if [ ! -d code/misc/comp-config ]
-    then
-        cat .ssh/id_rsa.pub | pbcopy
-
-        read -p "Press enter once the SSH Key has been added to github..."
-
-        mkdir -p code/misc
-        git clone git@github.com:lamebear/comp-config.git code/misc
-
-        pushd code/misc/comp-config > /dev/null
-        git submodule update --init
-        popd > /dev/null
-    fi
-}
 
 pushd $HOME > /dev/null
 
@@ -50,11 +22,30 @@ brew install ${packages[@]} 2>/dev/null
 echo "Setting up Homebrew Casks..."
 brew cask install ${casks[@]} 2>/dev/null
 
-setupGit
+echo "Setting git configurations..."
+git config --global user.name > /dev/null || git config --global user.name "Jacob Lambert"
+git config --global user.email > /dev/null || (read -p "Git User Email: " userEmail && git config --global user.email $userEmail)
+
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
 
 [ -f .ssh/id_rsa ] || (read -p "Username for SSH Key:" sshUsername && ssh-keygen -t rsa -b 4096 -C $sshUsername)
 
-pullConfigRepo
+if [ ! -d code/misc/comp-config ]
+then
+    cat .ssh/id_rsa.pub | pbcopy
+
+    read -p "Press enter once the SSH Key has been added to github..."
+
+    mkdir -p code/misc
+    git clone git@github.com:lamebear/comp-config.git code/misc
+
+    pushd code/misc/comp-config > /dev/null
+    git submodule update --init
+    popd > /dev/null
+fi
 
 [[ -L .vimrc && -f .vimrc ]] || ln -s $(pwd)/code/misc/comp-config/vim/.vimrc $(pwd)/.vimrc
 [ -d .vim ] || mkdir $(pwd)/.vim
