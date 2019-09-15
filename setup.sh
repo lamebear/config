@@ -33,9 +33,10 @@ pushd $HOME > /dev/null
 hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
-packages=(bash-completion git go kubernetes-cli node@10 postgresql python redis vault)
+packages=(bash-completion git go k3d kubernetes-cli node@10 postgresql python redis vault)
 casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
 npmPackages=("@vue/cli")
+vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur)
 
 echo "Setting up Homebrew Taps..."
 for tap in "${taps[@]}"
@@ -64,7 +65,17 @@ pullConfigRepo
 [[ -L .bash_profile && -f .bash_profile ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_profile .bash_profile && source .bash_profile
 
 echo "Installing global NPM Packages..."
-npm install -g ${npmPackages[@]}
+for pkg in ${npmPackages[@]}
+do
+    npm list --depth 0 -g $pkg > /dev/null 2>&1 || npm install -g $pkg
+done
+
+echo "Installing vscode extensions..."
+[[ -L /usr/local/bin/code && -f /usr/local/bin/code ]] || ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code /usr/local/bin/code
+for ext in ${vscodeExtensions[@]}
+do
+    code --list-extensions | tail -n +1 | grep -iwq $ext || code --install-extension $ext
+done
 
 pushd $(brew --prefix)/etc/bash_completion.d > /dev/null
 
