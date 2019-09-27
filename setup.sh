@@ -8,6 +8,7 @@ taps=("homebrew/cask-versions")
 packages=(bash-completion git go k3d kubernetes-cli node@10 postgresql python redis vault)
 casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
 npmPackages=("@vue/cli")
+pipPackages=(virtualenv virtualenvwrapper)
 vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur)
 
 echo "Setting up Homebrew Taps..."
@@ -59,6 +60,12 @@ echo "Installing global NPM Packages..."
 for pkg in ${npmPackages[@]}
 do
     npm list --depth 0 -g $pkg > /dev/null 2>&1 || npm install -g $pkg
+done
+
+echo "Installing pip Packages..."
+for pkg in ${pipPackages[@]}
+do
+    pip list | grep -iq $pkg || pip install $pkg
 done
 
 echo "Installing vscode extensions..."
