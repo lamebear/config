@@ -68,6 +68,9 @@ do
     pip list | grep -iq $pkg || pip install $pkg
 done
 
+echo "Setting up virtualenv..."
+. $(brew --prefix)/bin/virtualenvwrapper.sh
+
 echo "Installing vscode extensions..."
 [[ -L /usr/local/bin/code && -f /usr/local/bin/code ]] || ln -s /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code /usr/local/bin/code
 for ext in ${vscodeExtensions[@]}
