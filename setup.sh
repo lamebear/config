@@ -5,9 +5,9 @@ pushd $HOME > /dev/null
 hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
-packages=(bash-completion git go k3d kubernetes-cli node@10 postgresql python redis vault)
+packages=(bash-completion git go k3d kubernetes-cli node@12 postgresql python redis vault)
 casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
-npmPackages=("@vue/cli")
+npmPackages=("@vue/cli", "@vue/cli-init")
 pipPackages=(virtualenv virtualenvwrapper)
 vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur)
 
