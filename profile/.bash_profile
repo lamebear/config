@@ -4,9 +4,14 @@ export PS1="\W \$ "
 
 PATH=$(env -i bash -c 'echo $PATH')
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
-[ -f ~/.bash_aliases ]  && . ~/.bash_aliases
-[ -f ~/.bash_functions ] && . ~/.bash_functions
+[ -f ~/.aliases ]  && . ~/.aliases
+[ -f ~/.functions ] && . ~/.functions
 
+alias edit_profile="vi ~/.bash_profile"
+alias reload_profile=". ~/.bash_profile"
+alias la="ls -al"
+
+export PATH="/usr/sbin:/sbin:$PATH"
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 export PATH="/usr/local/opt/node@12/bin:$PATH"
 export PATH="$HOME/code/misc/comp-config/bin:$PATH"
@@ -34,3 +39,7 @@ if [ -f $(brew --prefix)/bin/virtualenvwrapper.sh ]
 then
     . $(brew --prefix)/bin/virtualenvwrapper.sh
 fi
+
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+export PATH="/usr/local/opt/node@12/bin:$PATH"
