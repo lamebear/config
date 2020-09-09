@@ -1,0 +1,11 @@
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="/usr/local/opt/node@12/bin:$PATH"
+export PATH="$HOME/code/misc/comp-config/bin:$PATH"
+
+if [ -d "$HOME/go" ]; then
+    export PATH="$HOME/go/bin:$PATH"
+fi
+
+export WORKON_HOME="~/code/python/Envs"

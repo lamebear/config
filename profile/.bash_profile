@@ -2,8 +2,9 @@
 
 export PS1="\W \$ "
 
-PATH=$(env -i bash -c 'echo $PATH')
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 [ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+[ -f ~/.envs ] && . ~/.envs
 [ -f ~/.aliases ]  && . ~/.aliases
 [ -f ~/.functions ] && . ~/.functions
 
@@ -11,20 +12,6 @@ alias edit_profile="vi ~/.bash_profile"
 alias reload_profile=". ~/.bash_profile"
 alias la="ls -al"
 
-export PATH="/usr/sbin:/sbin:$PATH"
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
-export PATH="/usr/local/opt/node@12/bin:$PATH"
-export PATH="$HOME/code/misc/comp-config/bin:$PATH"
-
-if [ -d "$HOME/go" ]; then
-    export PATH="$HOME/go/bin:$PATH"
-fi
-
-if [ -f "$HOME/.local_bash_profile" ]; then
-    . "$HOME/.local_bash_profile"
-fi
-
-export WORKON_HOME="~/Envs"
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export ANDROID_HOME='/usr/local/share/android-sdk'
 
@@ -42,4 +29,3 @@ fi
 
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-export PATH="/usr/local/opt/node@12/bin:$PATH"

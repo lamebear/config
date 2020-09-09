@@ -5,11 +5,11 @@ pushd $HOME > /dev/null
 hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
-packages=(bash-completion git go k3d kubernetes-cli node@12 postgresql python redis vault)
-casks=(docker firefox-developer-edition google-cloud-sdk iterm2 slack spotify visual-studio-code)
-npmPackages=("@vue/cli", "@vue/cli-init")
-pipPackages=(virtualenv virtualenvwrapper)
-vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur)
+packages=(awscli git go kubernetes-cli node@12 postgresql python redis terraform vault vim yarn)
+casks=(discord docker google-cloud-sdk iterm2 keybase postman slack spotify virtualbox virtualbox-extension-pack visual-studio-code)
+npmPackages=("@vue/cli", "@vue/cli-init", "aws-cdk")
+pipPackages=(virtualenv virtualenvwrapper )
+vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur wakatime.vscode-wakatime)
 
 echo "Setting up Homebrew Taps..."
 for tap in "${taps[@]}"
@@ -48,13 +48,19 @@ then
     popd > /dev/null
 fi
 
+
+echo "Setting up Vim..."
 [[ -L .vimrc && -f .vimrc ]] || ln -s $(pwd)/code/misc/comp-config/vim/.vimrc $(pwd)/.vimrc
 [ -d .vim ] || mkdir $(pwd)/.vim
 [[ -L .vim/bundle && -d .vim/bundle ]] || ln -s $(pwd)/code/misc/comp-config/vim/bundle $(pwd)/.vim/bundle
 
-[[ -L .bash_aliases && -f .bash_aliases ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_aliases .bash_aliases
-[[ -L .bash_functions && -f .bash_functions ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_functions .bash_functions
-[[ -L .bash_profile && -f .bash_profile ]] || ln -s $(pwd)/code/misc/comp-config/profile/.bash_profile .bash_profile && source .bash_profile
+echo "Installing Oh My Zsh..."
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+echo "Setting up dotfiles..."
+[[ -L .aliases && -f .aliases ]] || ln -s $(pwd)/code/misc/comp-config/profile/.aliases .aliases
+[[ -L .functions && -f .functions ]] || ln -s $(pwd)/code/misc/comp-config/profile/.functions .functions
+[[ -L .zshrc && -f .zshrc ]] || (ln -s $(pwd)/code/misc/comp-config/profile/.zshrc .zshrc && source .zshrc)
 
 echo "Installing global NPM Packages..."
 for pkg in ${npmPackages[@]}
