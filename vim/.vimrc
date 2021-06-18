@@ -17,6 +17,8 @@ Plugin 'gmarik/Vundle.vim'
 
 " Utility
 Plugin 'scrooloose/nerdtree'
+Plugin 'junegunn/fzf'
+Plugin 'junegunn/fzf.vim'
 
 " Theme / Interface
 Plugin 'ryanoasis/vim-devicons'
@@ -34,6 +36,8 @@ filetype plugin indent on    " required
 """""""""""""""""""""""""""""""""""""
 " Configuration Section
 """""""""""""""""""""""""""""""""""""
+set splitbelow
+set splitright
 
 " Show linenumbers
 set number
@@ -76,8 +80,14 @@ let g:hybrid_reduced_contrast = 1
 " Mappings configurationn
 """""""""""""""""""""""""""""""""""""
 map <C-n> :NERDTreeToggle<CR>
+map ; :Files<CR>
 
 nnoremap <Up>    :resize +2<CR>
 nnoremap <Down>  :resize -2<CR>
 nnoremap <Left>  :vertical resize +2<CR>
 nnoremap <Right> :vertical resize -2<CR>
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>

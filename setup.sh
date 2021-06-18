@@ -3,14 +3,14 @@ pushd $HOME > /dev/null
 hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
 taps=("homebrew/cask-versions")
-packages=(awscli git go kubernetes-cli node@12 postgresql python redis terraform vault vim yarn)
+packages=(awscli git go kubernetes-cli node@14 postgresql python redis terraform vault vim yarn)
 casks=(discord docker google-cloud-sdk iterm2 keybase postman slack spotify virtualbox virtualbox-extension-pack visual-studio-code)
 npmPackages=("@vue/cli", "@vue/cli-init", "aws-cdk")
-pipPackages=(virtualenv virtualenvwrapper )
+pipPackages=(virtualenv virtualenvwrapper)
 vscodeExtensions=(davidanson.vscode-markdownlint eamodio.gitlens mauve.terraform ms-azuretools.vscode-docker ms-vscode.Go octref.vetur wakatime.vscode-wakatime)
 
 echo "Setting up Homebrew Taps..."
-for tap in "${taps[@]}"
+for tap in "${taps[@]}"]
 do
     brew tap | grep -q -w $tap || brew tap $tap
 done
