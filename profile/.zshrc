@@ -1,7 +1,7 @@
 [[ -f ~/.envs ]] && source ~/.envs
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jacoblambert/.oh-my-zsh"
+export ZSH="/Users/jlambert/.oh-my-zsh"
 
 ZSH_THEME="agnoster"
 
@@ -27,7 +27,11 @@ then
     . $(brew --prefix)/bin/virtualenvwrapper.sh
 fi
 
+export ANDROID_HOME=/Users/$USER/Library/Android/sdk
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH=$ANDROID_HOME/tools:$PATH
 prompt_context(){}
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
