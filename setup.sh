@@ -19,15 +19,14 @@ function setup_osx()
 
 case "$OSTYPE" in
   darwin*)
-    setup_osx
+    setup_osx ;;
   linux*)
     echo "LINUX" ;;
   *)
     echo "unknown: $OSTYPE" ;;
 esac
 
-read -p "Initial Github PAT: " token
-TOKEN=$token ansible-pull -U https://$TOKEN:x-oauth-basic@github.com/lamebear/comp-config -d /opt/lamebear/comp-config
+ansible-pull -U https://git@github.com/lamebear/config -d /opt/lamebear/config
 
 # hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
