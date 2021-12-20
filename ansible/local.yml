@@ -1,6 +1,5 @@
 - name: OS Specific Config
   hosts: localhost
-  become: true
   tasks:
   - name: "include OS task list"
     include_tasks: "tasks/{{ ansible_distribution }}.yaml"
