@@ -1,11 +1,3 @@
-- name: Check if Homebrew is already installed
-  stat:
-    path: /usr/local/bin/brew
-  register: b
-- name: Install Homebrew
-  become: true
-  shell: yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  when: not b.stat.exists
 - name: Install Core Packages
   community.general.homebrew:
     name: vim,iterm2,keybase,slack,spotify,discord,chrome

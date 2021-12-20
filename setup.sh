@@ -5,24 +5,15 @@ function setup_osx()
     echo "Installing Command Line Tools"
     xcode-select --Install
 
-    python3 -m pip --version 2>@1 > /dev/null && echo "pip already installed" || (
-        echo "Installing pip..."
-        curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-        python3 get-pip.py --user || exit 1
-        export PATH="$PATH:$HOME/Library/Python/3.8/bin"
-        rm get-pip.py
+    brew --version > /dev/null 2>&1 && echo "Homebrew already installed" || (
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || exit 1
     )
 
-    rustc --version 2>@1 > /dev/null && echo "rust already installed" || (
-        echo "Installing Rust..."
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh || exit 1
-        source $HOME/.cargo/env
-    )
-
-    [[ -z $(which ansible) ]] && (
+    ansible --verion > /dev/null 2>&1 && echo "Ansible already installed" || (
         echo "Installing ansible..."
         python3 -m pip install --user ansible || exit 1
-    ) || echo "ansible already installed..."
+    )
 }
 
 case "$OSTYPE" in
@@ -34,7 +25,7 @@ case "$OSTYPE" in
     echo "unknown: $OSTYPE" ;;
 esac
 
-ansible-pull -U https://git@github.com/lamebear/config -d $HOME/.config --ask-become-pass ansible/local.yml
+ansible-pull -U https://git@github.com/lamebear/config -d $HOME/.config ansible/local.yml
 
 # hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
