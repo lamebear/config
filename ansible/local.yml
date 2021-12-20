@@ -1,5 +1,5 @@
 - name: OS Specific Config
-  hosts: local
+  hosts: localhost
   become: true
   tasks:
   - name: "include OS task list"
