@@ -34,7 +34,7 @@ case "$OSTYPE" in
     echo "unknown: $OSTYPE" ;;
 esac
 
-ansible-pull -U https://git@github.com/lamebear/config -d $HOME/.config ansible/local.yml
+ansible-pull -U https://git@github.com/lamebear/config -d $HOME/.config --ask-become-pass ansible/local.yml
 
 # hash brew 2>/dev/null || (echo "Installing Homebrew...." && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)")
 
