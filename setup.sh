@@ -9,8 +9,11 @@ function setup_osx()
         rm get-pip.py
     )
 
-    echo "Installing Rust..."
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh || exit 1
+    rustc --version 2>@1 > /dev/null && echo "rust already installed" || (
+        echo "Installing Rust..."
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh || exit 1
+        source $HOME/.cargo/env
+    )
 
     [[ -z $(which ansible) ]] && (
         echo "Installing ansible..."
