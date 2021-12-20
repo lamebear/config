@@ -4,16 +4,14 @@ function setup_osx()
 {
     [[ -z $(which pip) ]] && (
         echo "Installing pip..."
-        read -p "waiting"
-        curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-        python get-pip.py --user
+        curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
+        python get-pip.py --user || exit 1
         rm get-pip.py
     ) || echo "pip already installed..."
 
     [[ -z $(which ansible) ]] && (
         echo "Installing ansible..."
-        read -p "waiting"
-        python -m pip install --user ansible
+        python -m pip install --user ansible || exit 1
     ) || echo "ansible already installed..."
 }
 
