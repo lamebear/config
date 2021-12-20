@@ -2,10 +2,14 @@
 
 function setup_osx()
 {
+    echo "Installing Command Line Tools"
+    xcode-select --Install
+
     python3 -m pip --version 2>@1 > /dev/null && echo "pip already installed" || (
         echo "Installing pip..."
         curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
         python3 get-pip.py --user || exit 1
+        export PATH="$PATH:$HOME/Library/Python/3.8/bin"
         rm get-pip.py
     )
 
