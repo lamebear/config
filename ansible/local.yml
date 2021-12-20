@@ -2,4 +2,4 @@
   hosts: localhost
   tasks:
   - name: "include OS task list"
-    include_tasks: "tasks/{{ ansible_distribution }}.yaml"
+    include_tasks: "{{ ansible_distribution }}.yaml"
