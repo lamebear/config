@@ -3,7 +3,7 @@
     path: /usr/local/bin/brew
   register: b
 - name: Install Homebrew
-  shell: yes | /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  shell: yes | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   when: not b.stat.exists
 - name: Install Core Packages
   community.general.homebrew:
